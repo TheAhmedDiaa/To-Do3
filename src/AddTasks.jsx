@@ -7,19 +7,23 @@ export default function AddTasks() {
   const { tasks, setTasks } = useContext(TasksContext);
 
   // the data form
-  const [title, setTitle] = useState('');
-  const [time, setTime] = useState(today(getLocalTimeZone()));
+  const [title, setTitle] = useState("");
+  const [time, setTime] = useState(
+    new Time(new Date().getHours(), new Date().getMinutes())
+  );
   const [date, setDate] = useState(today(getLocalTimeZone()));
 
   function handelSubmit(e) {
     e.preventDefault();
     const newTask = {
-      id: today(getLocalTimeZone()).toString() + Math.random().toString(36).substring(2, 9),
+      id:
+        today(getLocalTimeZone()).toString() +
+        Math.random().toString(36).substring(2, 9),
       title: title,
       time: time.toString(),
       date: date.toString(),
       done: false,
-    }
+    };
     setTasks([...tasks, newTask]);
     e.target.reset();
   }
@@ -40,10 +44,11 @@ export default function AddTasks() {
         <TimeInput
           aria-label="Time Picker"
           className="w-3xs"
+          value={time}
           defaultValue={
             new Time(new Date().getHours(), new Date().getMinutes())
           }
-          onChange={(i) => setTime(i)}
+          onChange={(t) => setTime(t)}
           label="Due Time"
           isRequired
         />
